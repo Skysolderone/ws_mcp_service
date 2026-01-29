@@ -65,7 +65,7 @@ pipeline {
                     sshagent(['prod-ec2-ssh-key']) {
                         sh """
                             # 传输 docker-compose.yaml 到服务器
-                            scp -o StrictHostKeyChecking=no docker-compose.yaml ${PROD_USER}@${PROD_SERVER}:~/
+                            scp -o StrictHostKeyChecking=no services/rsi/docker-compose.yaml ec2-user@ec2-54-65-152-26.ap-northeast-1.compute.amazonaws.com:~/
 
                             ssh -o StrictHostKeyChecking=no ${PROD_USER}@${PROD_SERVER} '
                                 # 登录Harbor
