@@ -33,6 +33,8 @@ pipeline {
                 script {
                     echo "构建Docker镜像: ${IMAGE_NAME}:${IMAGE_TAG}"
                     sh """
+                        cd ${WORKSPACE}
+                        pwd && ls -la go.mod go.sum 2>/dev/null || true
                         docker build -f services/rsi/Dockerfile -t ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} .
                         docker tag ${DOCKER_REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest
                     """
