@@ -7,5 +7,3 @@ services:
       dockerfile: services/rsi/Dockerfile
     ports:
       - 50002:8080
-    volumes:
-      - ./etc:/app/etc

@@ -19,6 +19,7 @@ from alpine:latest
 
 workdir /app
 copy --from=builder /app/rsi /app/rsi
+copy services/rsi/etc/ /app/etc/
 
 expose 8080
 

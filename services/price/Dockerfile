@@ -19,6 +19,7 @@ from alpine:latest
 
 workdir /app
 copy --from=builder /app/price /app/price
+copy services/price/etc/ /app/etc/
 
 expose 8080
 
