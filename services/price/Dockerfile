@@ -8,7 +8,7 @@ copy go.mod go.sum ./
 run go mod download
 
 
-copy .
+copy . ./
 run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o  price ./price.go
 
 
