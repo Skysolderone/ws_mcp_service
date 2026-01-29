@@ -1,9 +1,9 @@
 services:
   price:
-    image: harbor.wws741.top/mcp-service/price:latest
+    image: harbor.wws741.top/mcp-rpc/price:latest
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: services/price/Dockerfile
     ports:
       - 50001:8080
     volumes:

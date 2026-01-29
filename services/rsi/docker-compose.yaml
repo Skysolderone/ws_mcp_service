@@ -1,9 +1,9 @@
 services:
-  price:
-    image: harbor.wws741.top/mcp-service/price:latest
+  rsi:
+    image: harbor.wws741.top/mcp-rpc/rsi:latest
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: services/rsi/Dockerfile
     ports:
       - 50002:8080
     volumes:

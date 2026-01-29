@@ -3,7 +3,7 @@ from golang:1.25.6-alpine as builder
 workdir /app 
 
 
-copy go.mod go.sum ./
+copy services/rsi/go.mod services/rsi/go.sum ./
 
 run go mod download
 
