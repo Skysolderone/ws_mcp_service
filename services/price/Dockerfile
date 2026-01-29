@@ -8,6 +8,7 @@ run go mod download
 
 copy internal/ ./internal/
 copy pb/ ./pb/
+copy model/ ./model/
 copy pkg/ ./pkg/
 copy services/price/ ./services/price/
 

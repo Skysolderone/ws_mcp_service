@@ -7,6 +7,7 @@ copy go.mod go.sum ./
 run go mod download
 
 copy internal/ ./internal/
+copy model/ ./model/
 copy pb/ ./pb/
 copy pkg/ ./pkg/
 copy services/rsi/ ./services/rsi/
