@@ -1,0 +1,10 @@
+services:
+  price:
+    image: harbor.wws741.top/mcp-service/price:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 50002:8080
+    volumes:
+      - ./etc:/app/etc

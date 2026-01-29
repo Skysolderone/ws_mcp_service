@@ -1,0 +1,21 @@
+Name: rsi.rpc
+ListenOn: 0.0.0.0:8080
+Consul:
+  Host: consul.wws741.top
+  Key: rsi.rpc
+  Tag:
+    - rsi
+Log:
+  Level: debug
+  Path: ./logs/rsi
+  MaxSize: 100
+  MaxBackups: 10
+  MaxAge: 10
+  Mode: file
+  Compress: false
+  Encoding: json
+  EncodingTime: iso8601
+  EncodingLevel: info
+  EncodingDuration: seconds
+  EncodingCaller: full
+  EncodingFunction: full

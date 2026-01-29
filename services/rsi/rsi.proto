@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package rsi;
+option go_package="./rsi";
+
+message GetRsiRequest {
+  string symbol = 1;
+  string interval = 2;
+}
+
+message GetRsiResponse {
+  string symbol=1;
+  float rsi = 2;
+}
+
+service Rsi {
+  rpc GetRsi(GetRsiRequest) returns(GetRsiResponse);
+}

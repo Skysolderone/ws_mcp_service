@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package price;
+option go_package="./price";
+
+message Symbol {
+  string symbol = 1;
+}
+
+message Price {
+  string symbol = 1;
+  double price = 2;
+}
+
+service PriceService {
+  rpc GetPrice(Symbol) returns(Price);
+}

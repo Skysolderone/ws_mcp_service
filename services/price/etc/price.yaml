@@ -1,0 +1,21 @@
+Name: price.rpc
+ListenOn: 0.0.0.0:8080
+Consul:
+  Host: consul.wws741.top
+  Key: price.rpc
+  Tag:
+    - price
+Log:
+  Level: debug
+  Path: ./logs/price
+  MaxSize: 100
+  MaxBackups: 10
+  MaxAge: 10
+  Mode: file
+  Compress: false
+  Encoding: json
+  EncodingTime: iso8601
+  EncodingLevel: info
+  EncodingDuration: seconds
+  EncodingCaller: full
+  EncodingFunction: full
