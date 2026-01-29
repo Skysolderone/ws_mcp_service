@@ -35,46 +35,46 @@ func CalcRsiTask() {
 }
 
 func TradeTask() {
-	ctx := context.Background()
 	yesterday := time.Now().AddDate(0, 0, -1).Format("2006-01-02")
 	rsiValue := RsiMap[yesterday]
 
-	logx.WithContext(ctx).Infof("开始检查交易信号", map[string]interface{}{
-		"日期":     yesterday,
-		"RSI值":   rsiValue,
-		"交易信号阈值": 30.0,
-	})
+	logx.Infow("开始检查交易信号",
+		logx.Field("日期", yesterday),
+		logx.Field("RSI值", rsiValue),
+		logx.Field("交易信号阈值", 30.0),
+	)
 
 	// 如果RsiMap中存在昨天的RSI值 并且小于30 则买入
 	if rsiValue < 30 {
-		logx.WithContext(ctx).Infof("触发买入信号，准备下单", map[string]interface{}{
-			"RSI值": rsiValue,
-			"操作":   "买入",
-			"交易对":  "BTCUSDT",
-			"数量":   "0.001",
-			"方向":   "做多",
-			"订单类型": "市价单",
-		})
+		logx.Infow("触发买入信号，准备下单",
+			logx.Field("RSI值", rsiValue),
+			logx.Field("操作", "买入"),
+			logx.Field("交易对", "BTCUSDT"),
+			logx.Field("数量", "0.001"),
+			logx.Field("方向", "做多"),
+			logx.Field("订单类型", "市价单"),
+		)
 
 		// 使用币安合约下单
 		api := futures.NewClient("sAugoLUrKZUA5mRUeQIiL0CR0MaMFYkbhSeNrS3nZJDs9r5J4goXPxwUj2sOGQI7", "dXILNYaXZRdwjFnM17IKRltczkrlJwrLaADcJvCIsyYivfoPEopnI4iAjeSDFXGH")
 		resp, err := api.NewCreateOrderService().Symbol("BTCUSDT").Side(futures.SideTypeBuy).Type(futures.OrderTypeMarket).Quantity("0.001").PositionSide(futures.PositionSideTypeLong).Do(context.Background())
 		if err != nil {
-			logx.WithContext(ctx).Errorf("买入订单执行失败", map[string]interface{}{
-				"错误":   err.Error(),
-				"RSI值": rsiValue,
-			})
+			logx.Errorw("买入订单执行失败",
+				logx.Field("错误", err.Error()),
+				logx.Field("RSI值", rsiValue),
+			)
 			return
 		}
 
-		logx.WithContext(ctx).Infof("买入订单执行成功", resp, map[string]interface{}{
-			"RSI值": rsiValue,
-		})
+		logx.Infow("买入订单执行成功",
+			logx.Field("订单响应", resp),
+			logx.Field("RSI值", rsiValue),
+		)
 	} else {
-		logx.WithContext(ctx).Infof("未触发交易信号", map[string]interface{}{
-			"RSI值": rsiValue,
-			"原因":   "RSI值未低于30",
-		})
+		logx.Infow("未触发交易信号",
+			logx.Field("RSI值", rsiValue),
+			logx.Field("原因", "RSI值未低于30"),
+		)
 	}
 }
 
@@ -87,12 +87,12 @@ func CalcRsi() {
 	// RsiMap[yesterday] = rsi
 	memcache.SetMemcacheFloat("BTCUSDT", rsi)
 
-	logx.WithContext(context.Background()).Infof("RSI计算完成", map[string]interface{}{
-		"交易对":  "BTCUSDT",
-		"RSI值": fmt.Sprintf("%.2f", rsi),
-		"周期":   14,
-		"K线数量": len(model.KlineListModel.Klines),
-	})
+	logx.Infow("RSI计算完成",
+		logx.Field("交易对", "BTCUSDT"),
+		logx.Field("RSI值", fmt.Sprintf("%.2f", rsi)),
+		logx.Field("周期", 14),
+		logx.Field("K线数量", len(model.KlineListModel.Klines)),
+	)
 }
 
 // Rsi 计算RSI指标
@@ -150,15 +150,15 @@ func GetKline(symbol string) error {
 		// 说明没有初始化
 		needInit = true
 		limit = 101
-		logx.WithContext(context.Background()).Infof("开始初始化K线数据", map[string]interface{}{
-			"交易对":  symbol,
-			"获取数量": limit,
-		})
+		logx.Infow("开始初始化K线数据",
+			logx.Field("交易对", symbol),
+			logx.Field("获取数量", limit),
+		)
 	} else {
-		logx.WithContext(context.Background()).Infof("开始获取最新K线数据", map[string]interface{}{
-			"交易对":  symbol,
-			"获取数量": limit,
-		})
+		logx.Infow("开始获取最新K线数据",
+			logx.Field("交易对", symbol),
+			logx.Field("获取数量", limit),
+		)
 	}
 	api := futures.NewClient("", "")
 	if needInit {
@@ -167,16 +167,16 @@ func GetKline(symbol string) error {
 
 		klines, err := api.NewContinuousKlinesService().Limit(limit).ContractType("PERPETUAL").Pair(symbol).Interval("1d").Do(context.Background())
 		if err != nil {
-			logx.WithContext(context.Background()).Errorf("初始化K线数据失败", map[string]interface{}{
-				"错误":  err.Error(),
-				"交易对": symbol,
-			})
+			logx.Errorw("初始化K线数据失败",
+				logx.Field("错误", err.Error()),
+				logx.Field("交易对", symbol),
+			)
 			return err
 		}
-		logx.WithContext(context.Background()).Infof("成功获取初始K线数据", map[string]interface{}{
-			"交易对":  symbol,
-			"数据条数": len(klines),
-		})
+		logx.Infow("成功获取初始K线数据",
+			logx.Field("交易对", symbol),
+			logx.Field("数据条数", len(klines)),
+		)
 		for _, klinedata := range klines {
 			// 如果openTime大于time.Now().AddDate(0, 0, -1).Unix()，则跳过
 			if klinedata.OpenTime > time.Now().AddDate(0, 0, -1).UnixMilli() {
@@ -199,21 +199,21 @@ func GetKline(symbol string) error {
 			})
 
 		}
-		logx.WithContext(context.Background()).Infof("K线数据初始化完成", map[string]interface{}{
-			"存储K线数量": model.KlineListModel.Len(),
-			"最早时间":   time.UnixMilli(model.KlineListModel.Get(0).OpenTime).Format("2006-01-02"),
-			"最新时间":   time.UnixMilli(model.KlineListModel.Get(model.KlineListModel.Len() - 1).OpenTime).Format("2006-01-02"),
-		})
+		logx.Infow("K线数据初始化完成",
+			logx.Field("存储K线数量", model.KlineListModel.Len()),
+			logx.Field("最早时间", time.UnixMilli(model.KlineListModel.Get(0).OpenTime).Format("2006-01-02")),
+			logx.Field("最新时间", time.UnixMilli(model.KlineListModel.Get(model.KlineListModel.Len()-1).OpenTime).Format("2006-01-02")),
+		)
 		RsiChannel <- true
 	} else {
 		// 获取最新一条数据
 		model.KlineListModel.RemoveFirst()
 		klines, err := api.NewContinuousKlinesService().Limit(limit).ContractType("PERPETUAL").Pair(symbol).Interval("1d").Do(context.Background())
 		if err != nil {
-			logx.WithContext(context.Background()).Errorf("获取最新K线数据失败", map[string]interface{}{
-				"错误":  err.Error(),
-				"交易对": symbol,
-			})
+			logx.Errorw("获取最新K线数据失败",
+				logx.Field("错误", err.Error()),
+				logx.Field("交易对", symbol),
+			)
 			return err
 		}
 
@@ -238,11 +238,11 @@ func GetKline(symbol string) error {
 				Volume:    volume,
 			})
 		}
-		logx.WithContext(context.Background()).Infof("K线数据更新完成", map[string]interface{}{
-			"存储K线数量": model.KlineListModel.Len(),
-			"最早时间":   time.UnixMilli(model.KlineListModel.Get(0).OpenTime).Format("2006-01-02"),
-			"最新时间":   time.UnixMilli(model.KlineListModel.Get(model.KlineListModel.Len() - 1).OpenTime).Format("2006-01-02"),
-		})
+		logx.Infow("K线数据更新完成",
+			logx.Field("存储K线数量", model.KlineListModel.Len()),
+			logx.Field("最早时间", time.UnixMilli(model.KlineListModel.Get(0).OpenTime).Format("2006-01-02")),
+			logx.Field("最新时间", time.UnixMilli(model.KlineListModel.Get(model.KlineListModel.Len()-1).OpenTime).Format("2006-01-02")),
+		)
 		RsiChannel <- true
 	}
 	return nil

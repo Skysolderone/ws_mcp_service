@@ -1,5 +1,6 @@
 services:
   rsi:
+    container_name: rsi
     image: harbor.wws741.top/mcp-rpc/rsi:latest
     build:
       context: ../..

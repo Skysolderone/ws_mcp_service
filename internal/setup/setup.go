@@ -4,12 +4,14 @@ import (
 	"context"
 	"mcp_service/internal/rsi"
 	"mcp_service/internal/websocket"
+	"mcp_service/pkg/memcache"
 
 	"github.com/robfig/cron/v3"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 func Setup(service string) {
+	memcache.InitMemcache()
 	switch service {
 	case "price":
 		go websocket.MarkPriceTask()
