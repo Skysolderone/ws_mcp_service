@@ -83,7 +83,7 @@
                                     docker-compose up -d
 
                                     # 清理旧镜像
-                                    docker image prune -af --filter "label!=keep"
+                                    docker images | grep 'mcp-rpc/rsi' | awk 'NR>1 {print $3}' | xargs -r docker rmi -f || true  
 
                                     # 退出登录
                                     docker logout ${DOCKER_REGISTRY}
