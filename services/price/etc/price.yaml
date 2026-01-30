@@ -5,6 +5,7 @@ Consul:
   Key: price.rpc
   Tag:
     - price
+  ServiceAddress: 54.65.152.26:50001
 Log:
   Level: debug
   Path: ./logs/price

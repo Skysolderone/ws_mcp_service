@@ -5,6 +5,7 @@ Consul:
   Key: rsi.rpc
   Tag:
     - rsi
+  ServiceAddress: 54.65.152.26:50002
 Log:
   Level: debug
   Path: ./logs/rsi
