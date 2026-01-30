@@ -6,6 +6,7 @@ Consul:
   Tag:
     - price
   ServiceAddress: 54.65.152.26:50001
+  TTL: 10
 Log:
   Level: debug
   Path: ./logs/price

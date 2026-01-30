@@ -6,6 +6,7 @@ Consul:
   Tag:
     - rsi
   ServiceAddress: 54.65.152.26:50002
+  TTL: 10
 Log:
   Level: debug
   Path: ./logs/rsi
