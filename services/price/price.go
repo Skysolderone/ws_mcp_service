@@ -36,7 +36,7 @@ func main() {
 		}
 	})
 	defer s.Stop()
-	err := consul.RegisterService(c.ListenOn, c.Consul)
+	err := consul.RegisterService(c.Consul.ServiceAddress, c.Consul.Conf)
 	if err != nil {
 		logx.Errorf("Register service to consul failed: %v", err)
 		return

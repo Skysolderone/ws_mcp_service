@@ -5,7 +5,12 @@ import (
 	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 )
 
+type ConsulConf struct {
+	consul.Conf
+	ServiceAddress string `json:",optional"`
+}
+
 type Config struct {
 	zrpc.RpcServerConf
-	Consul consul.Conf
+	Consul ConsulConf
 }
