@@ -14,11 +14,21 @@ import (
 )
 
 type (
-	Request  = order.Request
-	Response = order.Response
+	CancelOrderRequest   = order.CancelOrderRequest
+	CancelOrderResponse  = order.CancelOrderResponse
+	GetOrderListRequest  = order.GetOrderListRequest
+	GetOrderListResponse = order.GetOrderListResponse
+	GetOrderRequest      = order.GetOrderRequest
+	GetOrderResponse     = order.GetOrderResponse
+	OrderDetail          = order.OrderDetail
+	PlaceOrderRequest    = order.PlaceOrderRequest
+	PlaceOrderResponse   = order.PlaceOrderResponse
 
 	Order interface {
-		Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+		PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error)
+		GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...grpc.CallOption) (*GetOrderListResponse, error)
+		GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error)
+		CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error)
 	}
 
 	defaultOrder struct {
@@ -32,7 +42,22 @@ func NewOrder(cli zrpc.Client) Order {
 	}
 }
 
-func (m *defaultOrder) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (m *defaultOrder) PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error) {
 	client := order.NewOrderClient(m.cli.Conn())
-	return client.Ping(ctx, in, opts...)
+	return client.PlaceOrder(ctx, in, opts...)
+}
+
+func (m *defaultOrder) GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...grpc.CallOption) (*GetOrderListResponse, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.GetOrderList(ctx, in, opts...)
+}
+
+func (m *defaultOrder) GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.GetOrder(ctx, in, opts...)
+}
+
+func (m *defaultOrder) CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error) {
+	client := order.NewOrderClient(m.cli.Conn())
+	return client.CancelOrder(ctx, in, opts...)
 }

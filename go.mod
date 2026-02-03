@@ -13,6 +13,7 @@ require (
 )
 
 require (
+	github.com/Skysolderone/public_proto v0.0.0-20260130065808-ddeea47d8800 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bitly/go-simplejson v0.5.0 // indirect

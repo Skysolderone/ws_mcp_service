@@ -731,6 +731,8 @@ github.com/PuerkitoBio/purell v1.1.1/go.mod h1:c11w/QuzBsJSee3cPx9rAFu61PvFxuPbt
 github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578/go.mod h1:uGdkoq3SwY9Y+13GIhn11/XLaGBb4BfwItxLd5jeuXE=
 github.com/Shopify/sarama v1.37.2/go.mod h1:Nxye/E+YPru//Bpaorfhc3JsSGYwCaDDj+R4bK52U5o=
 github.com/Shopify/toxiproxy/v2 v2.5.0/go.mod h1:yhM2epWtAmel9CB8r2+L+PCmhH6yH2pITaPAo7jxJl0=
+github.com/Skysolderone/public_proto v0.0.0-20260130065808-ddeea47d8800 h1:FtXR7w02PYdJiqwLC74h/p+aEynz49enCcNv18xoMO0=
+github.com/Skysolderone/public_proto v0.0.0-20260130065808-ddeea47d8800/go.mod h1:8sYlWxZYuEyRKZ6Pf62gjJoaORjgn/GX8nJtdBpz5YI=
 github.com/adshao/go-binance/v2 v2.8.10 h1:WGsaSD4Mv47h3U/y11/9SySE06Y3GWileX9H1Fm1r68=
 github.com/adshao/go-binance/v2 v2.8.10/go.mod h1:XkkuecSyJKPolaCGf/q4ovJYB3t0P+7RUYTbGr+LMGM=
 github.com/ajstarks/deck v0.0.0-20200831202436-30c9fc6549a9/go.mod h1:JynElWSGnm/4RlzPXRlREEwqTHAN3T56Bv2ITsFT3gY=

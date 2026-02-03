@@ -6,6 +6,10 @@ import (
 
 var Client *futures.Client
 
+func InitClient() {
+	Client = futures.NewClient("", "")
+}
+
 func GetClient() *futures.Client {
 	if Client != nil {
 		return Client

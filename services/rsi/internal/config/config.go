@@ -1,16 +1,12 @@
 package config
 
 import (
-	"github.com/zeromicro/go-zero/zrpc"
-	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
-)
+	"mcp_service/internal/setup"
 
-type ConsulConf struct {
-	consul.Conf
-	ServiceAddress string `json:",optional"`
-}
+	"github.com/zeromicro/go-zero/zrpc"
+)
 
 type Config struct {
 	zrpc.RpcServerConf
-	Consul ConsulConf
+	Consul setup.ConsulConf
 }

@@ -1,0 +1,12 @@
+Name: position.rpc
+ListenOn: 0.0.0.0:8080
+Consul:
+  Host: consul.wws741.top
+  Key: position.rpc
+  Tag:
+    - position
+  ServiceAddress: 54.65.152.26:50004
+  TTL: 10
+Binance:
+  ApiKey: sAugoLUrKZUA5mRUeQIiL0CR0MaMFYkbhSeNrS3nZJDs9r5J4goXPxwUj2sOGQI7
+  ApiSecret: dXILNYaXZRdwjFnM17IKRltczkrlJwrLaADcJvCIsyYivfoPEopnI4iAjeSDFXGH

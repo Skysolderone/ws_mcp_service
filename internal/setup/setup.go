@@ -4,6 +4,7 @@ import (
 	"context"
 	"mcp_service/internal/rsi"
 	"mcp_service/internal/websocket"
+	"mcp_service/pkg/binance"
 	"mcp_service/pkg/memcache"
 
 	"github.com/robfig/cron/v3"
@@ -13,6 +14,10 @@ import (
 func Setup(service string) {
 	memcache.InitMemcache()
 	switch service {
+	case "position":
+		binance.InitClient()
+	case "order":
+		binance.InitClient()
 	case "price":
 		go websocket.MarkPriceTask()
 

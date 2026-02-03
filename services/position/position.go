@@ -4,10 +4,10 @@ import (
 	"flag"
 
 	"mcp_service/internal/setup"
-	"mcp_service/pb/order"
-	"mcp_service/services/order/internal/config"
-	"mcp_service/services/order/internal/server"
-	"mcp_service/services/order/internal/svc"
+	"mcp_service/pb/position"
+	"mcp_service/services/position/internal/config"
+	"mcp_service/services/position/internal/server"
+	"mcp_service/services/position/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -18,17 +18,17 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/order.yaml", "the config file")
+var configFile = flag.String("f", "etc/position.yaml", "the config file")
 
 func main() {
 	flag.Parse()
-	setup.Setup("order")
+	setup.Setup("position")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
-		order.RegisterOrderServer(grpcServer, server.NewOrderServer(ctx))
+		position.RegisterPositionServer(grpcServer, server.NewPositionServer(ctx))
 
 		if c.Mode == service.DevMode || c.Mode == service.TestMode {
 			reflection.Register(grpcServer)
@@ -42,7 +42,6 @@ func main() {
 		return
 	}
 	logx.Infof("Register service to consul success")
-
 	logx.Infof("Starting rpc server at %s...", c.ListenOn)
 	s.Start()
 }

@@ -23,7 +23,22 @@ func NewOrderServer(svcCtx *svc.ServiceContext) *OrderServer {
 	}
 }
 
-func (s *OrderServer) Ping(ctx context.Context, in *order.Request) (*order.Response, error) {
-	l := logic.NewPingLogic(ctx, s.svcCtx)
-	return l.Ping(in)
+func (s *OrderServer) PlaceOrder(ctx context.Context, in *order.PlaceOrderRequest) (*order.PlaceOrderResponse, error) {
+	l := logic.NewPlaceOrderLogic(ctx, s.svcCtx)
+	return l.PlaceOrder(in)
+}
+
+func (s *OrderServer) GetOrderList(ctx context.Context, in *order.GetOrderListRequest) (*order.GetOrderListResponse, error) {
+	l := logic.NewGetOrderListLogic(ctx, s.svcCtx)
+	return l.GetOrderList(in)
+}
+
+func (s *OrderServer) GetOrder(ctx context.Context, in *order.GetOrderRequest) (*order.GetOrderResponse, error) {
+	l := logic.NewGetOrderLogic(ctx, s.svcCtx)
+	return l.GetOrder(in)
+}
+
+func (s *OrderServer) CancelOrder(ctx context.Context, in *order.CancelOrderRequest) (*order.CancelOrderResponse, error) {
+	l := logic.NewCancelOrderLogic(ctx, s.svcCtx)
+	return l.CancelOrder(in)
 }

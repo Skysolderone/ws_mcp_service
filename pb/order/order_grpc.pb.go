@@ -19,14 +19,20 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Order_Ping_FullMethodName = "/order.Order/Ping"
+	Order_PlaceOrder_FullMethodName   = "/order.Order/PlaceOrder"
+	Order_GetOrderList_FullMethodName = "/order.Order/GetOrderList"
+	Order_GetOrder_FullMethodName     = "/order.Order/GetOrder"
+	Order_CancelOrder_FullMethodName  = "/order.Order/CancelOrder"
 )
 
 // OrderClient is the client API for Order service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type OrderClient interface {
-	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error)
+	GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...grpc.CallOption) (*GetOrderListResponse, error)
+	GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error)
+	CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error)
 }
 
 type orderClient struct {
@@ -37,10 +43,40 @@ func NewOrderClient(cc grpc.ClientConnInterface) OrderClient {
 	return &orderClient{cc}
 }
 
-func (c *orderClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *orderClient) PlaceOrder(ctx context.Context, in *PlaceOrderRequest, opts ...grpc.CallOption) (*PlaceOrderResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Response)
-	err := c.cc.Invoke(ctx, Order_Ping_FullMethodName, in, out, cOpts...)
+	out := new(PlaceOrderResponse)
+	err := c.cc.Invoke(ctx, Order_PlaceOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) GetOrderList(ctx context.Context, in *GetOrderListRequest, opts ...grpc.CallOption) (*GetOrderListResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrderListResponse)
+	err := c.cc.Invoke(ctx, Order_GetOrderList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) GetOrder(ctx context.Context, in *GetOrderRequest, opts ...grpc.CallOption) (*GetOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrderResponse)
+	err := c.cc.Invoke(ctx, Order_GetOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *orderClient) CancelOrder(ctx context.Context, in *CancelOrderRequest, opts ...grpc.CallOption) (*CancelOrderResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CancelOrderResponse)
+	err := c.cc.Invoke(ctx, Order_CancelOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +87,10 @@ func (c *orderClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOp
 // All implementations must embed UnimplementedOrderServer
 // for forward compatibility.
 type OrderServer interface {
-	Ping(context.Context, *Request) (*Response, error)
+	PlaceOrder(context.Context, *PlaceOrderRequest) (*PlaceOrderResponse, error)
+	GetOrderList(context.Context, *GetOrderListRequest) (*GetOrderListResponse, error)
+	GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error)
+	CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -62,8 +101,17 @@ type OrderServer interface {
 // pointer dereference when methods are called.
 type UnimplementedOrderServer struct{}
 
-func (UnimplementedOrderServer) Ping(context.Context, *Request) (*Response, error) {
-	return nil, status.Error(codes.Unimplemented, "method Ping not implemented")
+func (UnimplementedOrderServer) PlaceOrder(context.Context, *PlaceOrderRequest) (*PlaceOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method PlaceOrder not implemented")
+}
+func (UnimplementedOrderServer) GetOrderList(context.Context, *GetOrderListRequest) (*GetOrderListResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetOrderList not implemented")
+}
+func (UnimplementedOrderServer) GetOrder(context.Context, *GetOrderRequest) (*GetOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetOrder not implemented")
+}
+func (UnimplementedOrderServer) CancelOrder(context.Context, *CancelOrderRequest) (*CancelOrderResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CancelOrder not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
 func (UnimplementedOrderServer) testEmbeddedByValue()               {}
@@ -86,20 +134,74 @@ func RegisterOrderServer(s grpc.ServiceRegistrar, srv OrderServer) {
 	s.RegisterService(&Order_ServiceDesc, srv)
 }
 
-func _Order_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Request)
+func _Order_PlaceOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlaceOrderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OrderServer).Ping(ctx, in)
+		return srv.(OrderServer).PlaceOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Order_Ping_FullMethodName,
+		FullMethod: Order_PlaceOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OrderServer).Ping(ctx, req.(*Request))
+		return srv.(OrderServer).PlaceOrder(ctx, req.(*PlaceOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_GetOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).GetOrderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_GetOrderList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).GetOrderList(ctx, req.(*GetOrderListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_GetOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).GetOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_GetOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).GetOrder(ctx, req.(*GetOrderRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Order_CancelOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CancelOrderRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrderServer).CancelOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Order_CancelOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrderServer).CancelOrder(ctx, req.(*CancelOrderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -112,8 +214,20 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*OrderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Ping",
-			Handler:    _Order_Ping_Handler,
+			MethodName: "PlaceOrder",
+			Handler:    _Order_PlaceOrder_Handler,
+		},
+		{
+			MethodName: "GetOrderList",
+			Handler:    _Order_GetOrderList_Handler,
+		},
+		{
+			MethodName: "GetOrder",
+			Handler:    _Order_GetOrder_Handler,
+		},
+		{
+			MethodName: "CancelOrder",
+			Handler:    _Order_CancelOrder_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
