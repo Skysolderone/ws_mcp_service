@@ -1,0 +1,9 @@
+services:
+  position:
+    container_name: position
+    image: harbor.wws741.top/mcp-rpc/position:latest
+    build:
+      context: ../..
+      dockerfile: services/position/Dockerfile
+    ports:
+      - 50004:8080
