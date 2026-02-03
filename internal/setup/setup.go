@@ -2,6 +2,7 @@ package setup
 
 import (
 	"context"
+	"mcp_service/internal/position"
 	"mcp_service/internal/rsi"
 	"mcp_service/internal/websocket"
 	"mcp_service/pkg/binance"
@@ -13,9 +14,16 @@ import (
 
 func Setup(service string) {
 	memcache.InitMemcache()
+	InitCronTimer()
 	switch service {
 	case "position":
 		binance.InitClient()
+		cronTask := CronTask{
+			CronExpression: "*/5 * * * * *",
+			Task:           position.PullPosition,
+		}
+		cronTask.AddCronTask()
+		cronTask.Start()
 	case "order":
 		binance.InitClient()
 	case "price":

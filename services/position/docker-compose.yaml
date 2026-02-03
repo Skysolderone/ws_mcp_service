@@ -7,3 +7,4 @@ services:
       dockerfile: services/position/Dockerfile
     ports:
       - 50004:8080
+    restart: always

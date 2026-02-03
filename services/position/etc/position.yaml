@@ -7,12 +7,17 @@ Consul:
     - position
   ServiceAddress: 54.65.152.26:50004
   TTL: 10
+Redis:
+  Host: 127.0.0.1:6379
+  Password: ""
+  User: "root"
+  DB: 0
 Binance:
   ApiKey: sAugoLUrKZUA5mRUeQIiL0CR0MaMFYkbhSeNrS3nZJDs9r5J4goXPxwUj2sOGQI7
   ApiSecret: dXILNYaXZRdwjFnM17IKRltczkrlJwrLaADcJvCIsyYivfoPEopnI4iAjeSDFXGH
 Log:
   Level: debug
-  Path: ./logs/price
+  Path: ./logs/position
   MaxSize: 100
   MaxBackups: 10
   MaxAge: 10

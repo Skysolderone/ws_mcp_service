@@ -7,3 +7,4 @@ services:
       dockerfile: services/price/Dockerfile
     ports:
       - 50001:8080
+    restart: always

@@ -5,6 +5,7 @@ import (
 
 	"mcp_service/internal/setup"
 	"mcp_service/pb/position"
+	"mcp_service/pkg/redis"
 	"mcp_service/services/position/internal/config"
 	"mcp_service/services/position/internal/server"
 	"mcp_service/services/position/internal/svc"
@@ -25,6 +26,7 @@ func main() {
 	setup.Setup("position")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	redis.InitRedis(c.Redis)
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
