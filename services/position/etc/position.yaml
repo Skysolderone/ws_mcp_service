@@ -10,3 +10,17 @@ Consul:
 Binance:
   ApiKey: sAugoLUrKZUA5mRUeQIiL0CR0MaMFYkbhSeNrS3nZJDs9r5J4goXPxwUj2sOGQI7
   ApiSecret: dXILNYaXZRdwjFnM17IKRltczkrlJwrLaADcJvCIsyYivfoPEopnI4iAjeSDFXGH
+Log:
+  Level: debug
+  Path: ./logs/price
+  MaxSize: 100
+  MaxBackups: 10
+  MaxAge: 10
+  Mode: file
+  Compress: false
+  Encoding: json
+  EncodingTime: iso8601
+  EncodingLevel: info
+  EncodingDuration: seconds
+  EncodingCaller: full
+  EncodingFunction: full

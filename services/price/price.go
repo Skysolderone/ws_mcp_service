@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 
 	"mcp_service/internal/setup"
 	"mcp_service/pb/price"
@@ -42,6 +41,6 @@ func main() {
 		return
 	}
 	logx.Infof("Register service to consul success")
-	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
+	logx.Infof("Starting rpc server at %s...", c.ListenOn)
 	s.Start()
 }
