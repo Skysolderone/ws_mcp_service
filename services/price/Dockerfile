@@ -12,7 +12,7 @@ copy model/ ./model/
 copy pkg/ ./pkg/
 copy services/price/ ./services/price/
 
-run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o price ./services/price/price.go
+run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o price ./services/price/price.go && go clean -cache
 
 
 from alpine:latest

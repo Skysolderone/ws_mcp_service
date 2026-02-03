@@ -7,7 +7,7 @@ copy model/ ./model/
 copy pb/ ./pb/
 copy pkg/ ./pkg/
 copy services/position/ ./services/position/
-run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o position ./services/position/position.go
+run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o position ./services/position/position.go  && go clean -cache
 from alpine:latest
 workdir /app
 copy --from=builder /app/position /app/position

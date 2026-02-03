@@ -12,7 +12,7 @@ copy pb/ ./pb/
 copy pkg/ ./pkg/
 copy services/rsi/ ./services/rsi/
 
-run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o rsi ./services/rsi/rsi.go
+run CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o rsi ./services/rsi/rsi.go  && go clean -cache
 
 
 from alpine:latest
