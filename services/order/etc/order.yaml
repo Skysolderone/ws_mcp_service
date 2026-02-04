@@ -1,6 +1,26 @@
 Name: order.rpc
 ListenOn: 0.0.0.0:8080
-Etcd:
-  Hosts:
-  - 127.0.0.1:2379
+Consul:
+  Host: consul.wws741.top
   Key: order.rpc
+  Tag:
+    - order
+  ServiceAddress: 54.65.152.26:50003
+  TTL: 10
+Binance:
+  ApiKey: sAugoLUrKZUA5mRUeQIiL0CR0MaMFYkbhSeNrS3nZJDs9r5J4goXPxwUj2sOGQI7
+  ApiSecret: dXILNYaXZRdwjFnM17IKRltczkrlJwrLaADcJvCIsyYivfoPEopnI4iAjeSDFXGH
+Log:
+  Level: debug
+  Path: ./logs/order
+  MaxSize: 100
+  MaxBackups: 10
+  MaxAge: 10
+  Mode: file
+  Compress: false
+  Encoding: json
+  EncodingTime: iso8601
+  EncodingLevel: info
+  EncodingDuration: seconds
+  EncodingCaller: full
+  EncodingFunction: full

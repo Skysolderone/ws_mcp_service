@@ -1,0 +1,10 @@
+services:
+  rsi:
+    container_name: rsi
+    image: harbor.wws741.top/mcp-rpc/order:latest
+    build:
+      context: ../..
+      dockerfile: services/order/Dockerfile
+    ports:
+      - 50003:8080
+    restart: always
