@@ -25,6 +25,7 @@ func main() {
 	setup.Setup("order")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	// redis.InitRedis(c.Redis)
 	ctx := svc.NewServiceContext(c)
 
 	s := zrpc.MustNewServer(c.RpcServerConf, func(grpcServer *grpc.Server) {
@@ -35,14 +36,12 @@ func main() {
 		}
 	})
 	defer s.Stop()
-
 	err := consul.RegisterService(c.Consul.ServiceAddress, c.Consul.Conf)
 	if err != nil {
 		logx.Errorf("Register service to consul failed: %v", err)
 		return
 	}
 	logx.Infof("Register service to consul success")
-
 	logx.Infof("Starting rpc server at %s...", c.ListenOn)
 	s.Start()
 }

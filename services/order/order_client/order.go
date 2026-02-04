@@ -2,7 +2,7 @@
 // goctl 1.9.2
 // Source: order.proto
 
-package orderclient
+package order_client
 
 import (
 	"context"

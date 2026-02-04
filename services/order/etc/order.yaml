@@ -1,12 +1,6 @@
 Name: order.rpc
 ListenOn: 0.0.0.0:8080
-Consul:
-  Host: consul.wws741.top
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
   Key: order.rpc
-  Tag:
-    - order
-  ServiceAddress: 54.65.152.26:50003
-  TTL: 10
-Binance:
-  ApiKey:
-  ApiSecret:

@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"strconv"
+	"time"
 
 	"mcp_service/pb/order"
 	"mcp_service/services/order/internal/svc"
@@ -24,7 +26,19 @@ func NewCancelOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cance
 }
 
 func (l *CancelOrderLogic) CancelOrder(in *order.CancelOrderRequest) (*order.CancelOrderResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &order.CancelOrderResponse{}, nil
+	orderID, err := strconv.ParseInt(in.OrderId, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	resp, err := l.svcCtx.Binance.NewCancelOrderService().OrderID(orderID).Do(l.ctx)
+	if err != nil {
+		return nil, err
+	}
+	orderIDStr := strconv.FormatInt(resp.OrderID, 10)
+	return &order.CancelOrderResponse{
+		OrderId:   orderIDStr,
+		Status:    "success",
+		Message:   "订单取消成功",
+		Timestamp: time.Now().Format(time.RFC3339),
+	}, nil
 }

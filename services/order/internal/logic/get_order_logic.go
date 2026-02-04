@@ -24,7 +24,5 @@ func NewGetOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetOrder
 }
 
 func (l *GetOrderLogic) GetOrder(in *order.GetOrderRequest) (*order.GetOrderResponse, error) {
-	// todo: add your logic here and delete this line
-
-	return &order.GetOrderResponse{}, nil
+	return nil, nil
 }

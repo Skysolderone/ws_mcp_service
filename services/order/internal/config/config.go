@@ -8,5 +8,6 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	Consul setup.ConsulConf
+	Binance setup.BinanceConf
+	Consul  setup.ConsulConf
 }
