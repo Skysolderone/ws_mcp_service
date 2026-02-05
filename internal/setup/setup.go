@@ -1,24 +1,22 @@
 package setup
 
 import (
-	"context"
 	"mcp_service/internal/position"
 	"mcp_service/internal/rsi"
 	"mcp_service/internal/websocket"
 	"mcp_service/pkg/binance"
-	"mcp_service/pkg/memcache"
+	"mcp_service/pkg/cron"
 
-	"github.com/robfig/cron/v3"
-	"github.com/zeromicro/go-zero/core/logx"
+	"mcp_service/pkg/memcache"
 )
 
 func Setup(service string) {
 	memcache.InitMemcache()
-	InitCronTimer()
+	cron.InitCronTimer()
 	switch service {
 	case "position":
 		binance.InitClient()
-		cronTask := CronTask{
+		cronTask := cron.CronTask{
 			CronExpression: "*/5 * * * * *",
 			Task:           position.PullPosition,
 		}
@@ -30,30 +28,34 @@ func Setup(service string) {
 		go websocket.MarkPriceTask()
 
 	case "rsi":
+		cron.InitCronTimer()
 		go websocket.MarkPriceTask()
 		go rsi.CalcRsiTask()
-		// 首次启动立即获取K线数据
-		if err := rsi.GetKline("BTCUSDT"); err != nil {
-			logx.WithContext(context.Background()).Errorf("首次获取K线数据失败", map[string]interface{}{
-				"错误":  err.Error(),
-				"交易对": "BTCUSDT",
-			})
-			return
-		}
-		timer := cron.New()
-		timer.AddFunc("0 0 * * *", func() {
-			logx.WithContext(context.Background()).Infof("触发定时任务：开始获取K线数据", map[string]interface{}{
-				"交易对": "BTCUSDT",
-			})
-			if err := rsi.GetKline("BTCUSDT"); err != nil {
-				logx.WithContext(context.Background()).Errorf("定时任务执行失败", map[string]interface{}{
-					"错误":  err.Error(),
-					"交易对": "BTCUSDT",
-				})
-				return
-			}
-		})
-		timer.Start()
+		go rsi.SaveRsiTask()
+
+		// go rsi.DailyRsiTask()
+
+		// if err := rsi.GetKline("BTCUSDT"); err != nil {
+		// 	logx.WithContext(context.Background()).Errorf("首次获取K线数据失败", map[string]interface{}{
+		// 		"错误":  err.Error(),
+		// 		"交易对": "BTCUSDT",
+		// 	})
+		// 	return
+		// }
+		// timer := cron.New()
+		// timer.AddFunc("0 0 * * *", func() {
+		// 	logx.WithContext(context.Background()).Infof("触发定时任务：开始获取K线数据", map[string]interface{}{
+		// 		"交易对": "BTCUSDT",
+		// 	})
+		// 	if err := rsi.GetKline("BTCUSDT"); err != nil {
+		// 		logx.WithContext(context.Background()).Errorf("定时任务执行失败", map[string]interface{}{
+		// 			"错误":  err.Error(),
+		// 			"交易对": "BTCUSDT",
+		// 		})
+		// 		return
+		// 	}
+		// })
+		// timer.Start()
 
 	}
 

@@ -4,6 +4,7 @@ import (
 	"flag"
 	"os"
 
+	"mcp_service/internal/db"
 	"mcp_service/internal/setup"
 	"mcp_service/pb/rsi"
 	"mcp_service/services/rsi/internal/config"
@@ -26,6 +27,7 @@ func main() {
 	setup.Setup("rsi")
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	db.InitPostgreSQL(c.PostgreSQL.DSN)
 	ctx := svc.NewServiceContext(c)
 	logx.MustSetup(c.Log)
 	logx.AddWriter(logx.NewWriter(os.Stdout))

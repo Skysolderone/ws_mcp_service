@@ -1,5 +1,7 @@
 Name: rsi.rpc
 ListenOn: 0.0.0.0:8080
+PostgreSQL:
+  DSN: host=pgm-bp140jpn9wct9u0two.pg.rds.aliyuncs.com user=wws password=Wws5201314 dbname=rsi port=5432 sslmode=disable TimeZone=UTC
 Consul:
   Host: consul.wws741.top
   Key: rsi.rpc

@@ -13,10 +13,12 @@ type Kline struct {
 }
 
 type KlineList struct {
-	Klines []Kline
+	Symbol   string
+	Interval string
+	Klines   []Kline
 }
 
-var KlineListModel = NewKlineList()
+var KlineListModel = make(map[string]KlineList, 0)
 
 func (k *KlineList) Add(kline Kline) {
 	k.Klines = append(k.Klines, kline)
@@ -33,6 +35,10 @@ func (k *KlineList) Len() int {
 // 删除第一条数据
 func (k *KlineList) RemoveFirst() {
 	k.Klines = k.Klines[1:]
+}
+
+func (k *KlineList) Clear() {
+	k.Klines = make([]Kline, 0)
 }
 
 func (k *KlineList) RemoveLast() {

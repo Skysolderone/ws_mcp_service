@@ -12,3 +12,6 @@ update:
 
 gen-proto: #update
 	goctl rpc protoc ./proto/$(name)/$(name).proto --go_out=./pb/ --go-grpc_out=./pb/ --zrpc_out=./services/$(name)/  --style=go_zero
+
+run-rsi-check:
+	go run tools/check_rsi/rsi_check.go

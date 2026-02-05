@@ -13,6 +13,9 @@ func InitMemcache() {
 }
 
 func GetMemcache(key string) string {
+	if Mc == nil {
+		return ""
+	}
 	item, err := Mc.Get(key)
 	if err != nil {
 		return ""
@@ -21,6 +24,9 @@ func GetMemcache(key string) string {
 }
 
 func GetMemcacheFloat(key string) float64 {
+	if Mc == nil {
+		return 0
+	}
 	item, err := Mc.Get(key)
 	if err != nil {
 		return 0
@@ -33,6 +39,9 @@ func GetMemcacheFloat(key string) float64 {
 }
 
 func SetMemcache(key string, value string) bool {
+	if Mc == nil {
+		return false
+	}
 	err := Mc.Set(&memcache.Item{
 		Key:   key,
 		Value: []byte(value),
@@ -44,6 +53,9 @@ func SetMemcache(key string, value string) bool {
 }
 
 func SetMemcacheFloat(key string, value float64) bool {
+	if Mc == nil {
+		return false
+	}
 	err := Mc.Set(&memcache.Item{
 		Key:   key,
 		Value: []byte(strconv.FormatFloat(value, 'f', -1, 64)),
@@ -53,7 +65,11 @@ func SetMemcacheFloat(key string, value float64) bool {
 	}
 	return true
 }
+
 func SetMemcacheWithExpiration(key string, value string, expiration int32) {
+	if Mc == nil {
+		return
+	}
 	Mc.Set(&memcache.Item{
 		Key:        key,
 		Value:      []byte(value),
@@ -62,6 +78,9 @@ func SetMemcacheWithExpiration(key string, value string, expiration int32) {
 }
 
 func GetMemcacheWithExpiration(key string) (string, int32) {
+	if Mc == nil {
+		return "", 0
+	}
 	item, err := Mc.Get(key)
 	if err != nil {
 		return "", 0
@@ -70,6 +89,9 @@ func GetMemcacheWithExpiration(key string) (string, int32) {
 }
 
 func DeleteMemcache(key string) bool {
+	if Mc == nil {
+		return false
+	}
 	err := Mc.Delete(key)
 	if err != nil {
 		return false

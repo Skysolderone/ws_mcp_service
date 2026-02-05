@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.6.0
 // - protoc             v3.19.4
-// source: services/rsi/rsi.proto
+// source: proto/rsi/rsi.proto
 
 package rsi
 
@@ -117,5 +117,5 @@ var Rsi_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "services/rsi/rsi.proto",
+	Metadata: "proto/rsi/rsi.proto",
 }

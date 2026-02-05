@@ -2,7 +2,7 @@
 // goctl 1.9.2
 // Source: rsi.proto
 
-package rsiclient
+package rsi_client
 
 import (
 	"context"

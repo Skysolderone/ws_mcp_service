@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 
 	"mcp_service/pb/rsi"
 	"mcp_service/pkg/memcache"
@@ -30,16 +31,16 @@ func (l *GetRsiLogic) GetRsi(in *rsi.GetRsiRequest) (*rsi.GetRsiResponse, error)
 	if in.Symbol == "" {
 		return nil, status.Error(codes.InvalidArgument, "symbol is required")
 	}
-	value := memcache.GetMemcacheFloat(in.Symbol)
-	if value != 0 {
-		return &rsi.GetRsiResponse{
-			Symbol: in.Symbol,
-			Rsi:    float32(value),
-		}, nil
+	if in.Interval == "" {
+		in.Interval = "1d"
 	}
-
+	key := fmt.Sprintf("%s_%s", in.Symbol, in.Interval)
+	rsiValue := memcache.GetMemcacheFloat(key)
+	if rsiValue == 0 {
+		return nil, status.Error(codes.NotFound, "RSI not found")
+	}
 	return &rsi.GetRsiResponse{
 		Symbol: in.Symbol,
-		Rsi:    -1,
+		Rsi:    float32(rsiValue),
 	}, nil
 }
