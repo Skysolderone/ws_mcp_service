@@ -348,8 +348,7 @@ func ParseDate(interval string, i int) (time.Time, time.Time) {
 			logx.Errorw("日期格式错误", logx.Field("错误", err.Error()), logx.Field("日期", date))
 			return time.Time{}, time.Time{}
 		}
-		// 覆盖最近 5 天的 1h 数据
-		startTime := endTime.Truncate(time.Hour * 100)
+		startTime := endTime.Truncate(time.Hour * 200)
 		return startTime, endTime
 	case "2h":
 		date := now.AddDate(0, 0, -i).Format("2006-01-02")
@@ -407,7 +406,7 @@ func GetKlineByDate(symbol string, interval string, startTime time.Time, endTime
 		logx.Errorw("K线数据为空", logx.Field("错误", err.Error()), logx.Field("交易对", symbol), logx.Field("日期", endTime.Format("2006-01-02")))
 		return
 	}
-
+	logx.Infow("klines", logx.Field("klines", klines))
 	for _, klinedata := range klines {
 
 		open, _ := strconv.ParseFloat(klinedata.Open, 64)
